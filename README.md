@@ -19,7 +19,6 @@ Leia o arquivo [LICENSE](https://github.com/matrufsc2/frontend/blob/develop/LICE
 Segue as dependências do projeto:
 
 - [NodeJS](http://nodejs.org)
-- [pip](http://pip.readthedocs.org/en/latest/)
 
 ## Instalação
 
