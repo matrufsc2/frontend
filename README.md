@@ -24,15 +24,21 @@ Segue as dependências do projeto:
 
 - Clone este repositório para o seu computador rodando o seguinte comando no terminal:
 
+```sh
 	git clone https://github.com/matrufsc2/frontend.git && cd frontend
+```
 
 - Execute o seguinte comando para instalar suas dependências: iniciar o servidor de desenvolvimento:
 
+```sh
 	npm install
+```
 
 - Inicie o servidor de desenvolvimento:
 	
+```sh
 	npm start
+```
 
 - Pronto! O servidor estará rodando no endereço http://127.0.0.1:8000 
 
@@ -40,25 +46,31 @@ Segue as dependências do projeto:
 
 O projeto é muito simples de ser construido. Após clonar o projeto, basta rodar o seguinte comando para que o projeto seja devidamente otimizado para publicação na web:
 
-
+```sh
 	npm run-script build
-
+```
 
 ## Testando o projeto
 
 Para executar os testes, basta rodar:
 
+```sh
 	npm run-script auto-test
+```
 
 Todos os testes serão executados em todos os navegadores que você tiver instalado no seu computador e será criado um relatório na pasta coverage/lcov-report/
 
 Se você não quiser executar testes automatizados, basta executar:
 
+```sh
 	echo "Running Coverage Server"
 	node coverage_server.js &
+```
 
 **Para caso** queira obter relatórios de cobertura de código e depois rodar:
 
+```sh
 	npm test
+```
 
 Para iniciar o servidor de testes, que escuta em uma porta diferente: http://127.0.0.1:7357/
