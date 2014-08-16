@@ -14,15 +14,26 @@ Criado sob o framework [ChaplinJS](http://chaplinjs.org), com a ajuda de ferrame
 
 Leia o arquivo [LICENSE](https://github.com/matrufsc2/frontend/blob/develop/LICENSE.md).
 
+## Dependências
+
+Segue as dependências do projeto:
+
+- [NodeJS](http://nodejs.org)
+- [pip](http://pip.readthedocs.org/en/latest/)
+
 ## Instalação
 
 - Clone este repositório para o seu computador rodando o seguinte comando no terminal:
 
-	git clone https://github.com/matrufsc2/frontend.git
+	git clone https://github.com/matrufsc2/frontend.git && cd frontend
 
-- Execute o seguinte comando para iniciar o servidor de testes:
+- Execute o seguinte comando para instalar suas dependências: iniciar o servidor de desenvolvimento:
 
-	cd frontend && npm install && npm start
+	npm install
+
+- Inicie o servidor de desenvolvimento:
+	
+	npm start
 
 - Pronto! O servidor estará rodando no endereço http://127.0.0.1:8000 
 
