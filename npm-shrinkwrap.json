@@ -2,6 +2,23 @@
   "name": "frontend",
   "version": "0.1.1",
   "dependencies": {
+    "MD5": {
+      "version": "1.2.1",
+      "from": "MD5@",
+      "resolved": "https://registry.npmjs.org/MD5/-/MD5-1.2.1.tgz",
+      "dependencies": {
+        "charenc": {
+          "version": "0.0.1",
+          "from": "charenc@>= 0.0.1",
+          "resolved": "https://registry.npmjs.org/charenc/-/charenc-0.0.1.tgz"
+        },
+        "crypt": {
+          "version": "0.0.1",
+          "from": "crypt@>= 0.0.1",
+          "resolved": "https://registry.npmjs.org/crypt/-/crypt-0.0.1.tgz"
+        }
+      }
+    },
     "istanbul": {
       "version": "0.3.0",
       "from": "istanbul@",
