@@ -1,8 +1,16 @@
 {
-  "name": "static-new",
-  "version": "0.0.1",
+  "name": "frontend",
+  "version": "0.1.1",
   "description": "A Mimosa starter skeleton",
-  "devDependencies": {
-    "mimosa-underscore": "*"
+  "dependencies": {
+    "istanbul": "^0.3.0",
+    "mimosa": "^2.3.1",
+    "mimosa-combine": "^1.0.2",
+    "mimosa-underscore": "^1.0.2",
+    "mimosa-web-package": "^2.0.0"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/mimosa watch -s",
+    "build": "./node_modules/.bin/mimosa build -o"
   }
 }
