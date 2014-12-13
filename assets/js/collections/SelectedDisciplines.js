@@ -155,7 +155,7 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 			this.map(function(discipline){
 				discipline.team = _.findWhere(combination, {
 					"discipline": discipline
-				});;
+				});
 				discipline.semester = this.semesters.get(this.status.get("semester"));
 				discipline.campus = this.campi.get(this.status.get("campus"));
 			}, this);
