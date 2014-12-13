@@ -57,8 +57,6 @@ define("controllers/HomeController", [
 				"selectedCombination"
 			];
 			var statusSession = _.pick(request.query, statusSessionKeys) || {};
-			console.log("Original: ");
-			console.log(statusSession);
 			var updateURL = _.bind(function() {
 				var urlQuery = {};
 				urlQuery.semester = this.status.get("semester");
@@ -78,21 +76,17 @@ define("controllers/HomeController", [
 				urlQuery.selectedDisciplines = selectedDisciplines;
 				urlQuery.disabledTeams = disabledTeams;
 				urlQuery.selectedCombination = this.selectedDisciplines.getSelectedCombination();
-				console.log("Updating query on the URL..");
-				console.log(urlQuery);
 				var url = Chaplin.utils.reverse("Home#index", urlQuery, {"trigger": false});
 				Backbone.history.navigate(url, {"trigger": false, "replace": false});
 			}, this);
 			if (_.size(statusSession) >= 2) {
 				// Well, Here we can load based on data in the querystring :D
-				console.log("Loading data :D");
 				if (statusSession.selectedDisciplines && !_.isArray(statusSession.selectedDisciplines)) {
 					statusSession.selectedDisciplines = [statusSession.selectedDisciplines];
 				}
 				if (statusSession.disabledTeams && !_.isArray(statusSession.disabledTeams)) {
 					statusSession.disabledTeams = [statusSession.disabledTeams];
 				}
-				console.log(statusSession);
 				this.semesters.once("sync", function(){
 					this.status.once("change:campus", function() {
 						this.disciplines.on("sync", function disciplinesLoaded(){
