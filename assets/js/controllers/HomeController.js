@@ -141,7 +141,6 @@ define("controllers/HomeController", [
 				this.status.on("change", updateURL);
 				this.selectedDisciplines.on("change change:combination", updateURL);
 			}
-			this.semesters.fetch();
 			this.status.listenEvents();
 		}
 	});
