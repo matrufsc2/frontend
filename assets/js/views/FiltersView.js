@@ -2,8 +2,9 @@ define("views/FiltersView", [
 	"underscore",
 	"templates",
 	"views/BaseView",
+	"diacritic",
 	"select2"
-], function(_, templates, BaseView){
+], function(_, templates, BaseView, diacritic){
 	"use strict";
 	var filterCollectionByQuery = function(collection, query, onGet) {
 		var count = 0;
@@ -14,7 +15,7 @@ define("views/FiltersView", [
 			if(count >= limit){
 				return false;
 			}
-			var result = onGet(model).toLowerCase().match(query.term.toLowerCase());
+			var result = onGet(model).toLowerCase().match(diacritic.clean(query.term).toLowerCase());
 			if(result){
 				++count;
 			}
@@ -25,7 +26,7 @@ define("views/FiltersView", [
 				"text": onGet(model)
 			};
 		});
-		results.more = results.results.length == 11;
+		results.more = results.results.length === 11;
 		results.results = results.results.slice(0, 10);
 		return results;
 	};
@@ -61,8 +62,20 @@ define("views/FiltersView", [
 			this.$("#semester").val(view.status.get("semester")).select2({
 				"width": "100%",
 				"formatNoMatches": "Nenhum resultado encontrado",
+				"formatSearching": "Carregando...",
 				"query": function(query) {
-					query.callback(filterCollectionByQuery(view.semesters.toJSON(), query, onGetSemester));
+					var located = false;
+					function doQuery() {
+						if (located) {
+							return;
+						}
+						located = true;
+						query.callback(filterCollectionByQuery(view.semesters.toJSON(), query, onGetSemester));
+					}
+					view.semesters.once("synced", doQuery);
+					if(view.semesters.isSynced()) {
+						doQuery();
+					}
 				},
 				"initSelection": getInitSelectionForSelect2(view.semesters, onGetSemester)
 			}).on("change", function(e){
@@ -84,8 +97,20 @@ define("views/FiltersView", [
 			this.$("#campus").val(view.status.get("campus")).select2({
 				"width": "100%",
 				"formatNoMatches": "Nenhum resultado encontrado",
+				"formatSearching": "Carregando...",
 				"query": function(query) {
-					query.callback(filterCollectionByQuery(view.campi.toJSON(), query, onGetCampus));
+					var located = false;
+					function doQuery() {
+						if (located) {
+							return;
+						}
+						located = true;
+						query.callback(filterCollectionByQuery(view.campi.toJSON(), query, onGetCampus));
+					}
+					view.campi.once("synced", doQuery);
+					if(view.campi.isSynced()) {
+						doQuery();
+					}
 				},
 				"initSelection": getInitSelectionForSelect2(view.campi, onGetCampus)
 			}).on("change", function(e){
@@ -107,10 +132,20 @@ define("views/FiltersView", [
 			this.$("#discipline").select2({
 				"width": "100%",
 				"formatNoMatches": "Nenhum resultado encontrado",
+				"formatSearching": "Carregando...",
 				"query": function(query) {
-					query.callback(filterCollectionByQuery(_.filter(view.disciplines.toJSON(), function(discipline){
-						return !discipline._selected;
-					}), query, onGetDiscipline));
+					var located = false;
+					function doQuery() {
+						if (located) {
+							return;
+						}
+						located = true;
+						query.callback(filterCollectionByQuery(view.disciplines.toJSON(), query, onGetDiscipline));
+					}
+					view.disciplines.once("synced", doQuery);
+					if(view.disciplines.isSynced()) {
+						doQuery();
+					}
 				},
 				"initSelection": getInitSelectionForSelect2(view.disciplines, onGetDiscipline)
 			}).on("select2-selecting", function(e){

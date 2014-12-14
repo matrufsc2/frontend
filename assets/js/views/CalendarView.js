@@ -1,4 +1,4 @@
-define("views/CalendarView", ["views/BaseView", "templates", "underscore", "fastdom", "jquery"], function(BaseView, templates, _, fastdom, $){
+define("views/CalendarView", ["views/BaseView", "templates"], function(BaseView, templates){
 	"use strict";
 	var hours = ["07:30","08:20","09:10","10:10","11:00","13:30","14:20","15:10","16:20","17:10","18:30","19:20","20:20","21:10"];
 	return BaseView.extend({
@@ -12,27 +12,25 @@ define("views/CalendarView", ["views/BaseView", "templates", "underscore", "fast
 			var events = this.collection.reduce(function(old, discipline){
 				if(discipline.team) {
 					old = old.concat(discipline.team.schedules.map(function(schedule){
-						var start = schedule.getStart();
 						return {
 							"title": discipline.get("code"),
 							"color": discipline.get("_color"),
-							"column": start.day(),
+							"column": schedule.getStart().day(),
 							"enabled": true,
-							"rowStart": hours.indexOf(start.format("HH:mm")),
-							"rowEnd": hours.indexOf(start.format("HH:mm"))+(schedule.get("numberOfLessons")-1)
+							"rowStart": schedule.getStartRow(),
+							"rowEnd": schedule.getEndRow()
 						};
 					}));
 				}
 				if(discipline.hoveredTeam) {
 					old = old.concat(discipline.hoveredTeam.schedules.map(function(schedule){
-						var start = schedule.getStart();
 						return {
 							"title": discipline.get("code"),
 							"color": discipline.get("_color"),
-							"column": start.day(),
+							"column": schedule.getStart().day(),
 							"enabled": false,
-							"rowStart": hours.indexOf(start.format("HH:mm")),
-							"rowEnd": hours.indexOf(start.format("HH:mm"))+(schedule.get("numberOfLessons")-1)
+							"rowStart": schedule.getStartRow(),
+							"rowEnd": schedule.getEndRow()
 						};
 					}));
 				}
@@ -55,7 +53,7 @@ define("views/CalendarView", ["views/BaseView", "templates", "underscore", "fast
 			return {
 				"hours": hours,
 				"events": matrixEvents
-			}
+			};
 		}
 	});
 });

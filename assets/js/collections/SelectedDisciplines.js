@@ -40,7 +40,7 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 					color = Please.make_color({
 						"saturation": 0.5,
 						"value": 0.8
-					})
+					});
 					if(collection.findWhere({"_color": color}) !== undefined) {
 						color = null;
 						continue;
@@ -78,6 +78,11 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 				}
 				return old;
 			}, []).length);
+			this.map(function(discipline) {
+				discipline.set("_blink", false);
+				discipline.unset("_title");
+			});
+			var disciplinesConflicted = {};
 			this.combinationsAvailable = _.filter(combinations, function(combination){
 				var disciplines = [];
 				for(var c=combination.length; c--;) {
@@ -87,7 +92,10 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 					disciplines.push(combination[c].discipline.id);
 				}
 				var schedules = combination.reduce(function(old, team) {
-					return old.concat(team.schedules.clone().models);
+					return old.concat(team.schedules.clone().map(function(schedule) {
+						schedule.team = team;
+						return schedule;
+					}));
 				}, []);
 				for(var verifySchedule = schedules.length; verifySchedule--;) {
 					var schedule = schedules[verifySchedule];
@@ -96,12 +104,31 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 							continue;
 						}
 						if (schedule.conflictsWith(schedules[count])){
+							var disciplineId = schedule.team.discipline.id;
+							disciplinesConflicted[disciplineId] = disciplinesConflicted[disciplineId] || [];
+							disciplinesConflicted[disciplineId].push(schedule.team.id);
 							return false;
 						}
 					}
 				}
 				return true;
 			});
+			if (this.combinationsAvailable.length === 0 && teams.length > 0) {
+				_.each(disciplinesConflicted, function(teamsDiscipline, discipline_id) {
+					var teamsSelected = _.filter(teams, function(team){
+						return team.discipline.id === discipline_id;
+					});
+					var disciplineConflict = _.every(teamsSelected, function(team) {
+						return teamsDiscipline.indexOf(team.id) > -1;
+					});
+					if (disciplineConflict) {
+						var discipline = this.get(discipline_id);
+						discipline.set("_blink", true);
+						discipline.set("_title", "Esta disciplina esta impedindo a geracao de uma combinacao valida");
+					}
+				}, this);
+			}
+
 		},
 		"combinationCount": function(){
 			return this.combinationsAvailable.length;
@@ -126,10 +153,9 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 				return;
 			}
 			this.map(function(discipline){
-				var team = _.findWhere(combination, {
+				discipline.team = _.findWhere(combination, {
 					"discipline": discipline
 				});
-				discipline.team = team;
 				discipline.semester = this.semesters.get(this.status.get("semester"));
 				discipline.campus = this.campi.get(this.status.get("campus"));
 			}, this);
@@ -144,7 +170,7 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 			this.selectCombination();
 		},
 		"hasNextCombination": function(){
-			return this.combinationCount() > this.getSelectedCombination();
+			return (this.combinationCount()-1) > this.getSelectedCombination();
 		},
 		"previousCombination": function(){
 			if(this.hasPreviousCombination()) {
@@ -159,8 +185,7 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 		},
 		"move": function(model, delta) {
 			var index = this.indexOf(model);
-			if ((delta < 0 && index+delta >= 0) || (delta > 0 && index+delta < this.length)) {
-				this.moveTo(this.at(index+delta), index-delta);// Moves the old model
+			if ((delta < 0 && index > 0) || (delta > 0 && index < (this.length-1))) {
 				this.moveTo(model, index+delta);//Moves the actual model
 			}
 		},
@@ -169,7 +194,9 @@ define("collections/SelectedDisciplines", ["query-engine", "underscore", "moment
 				return;
 			}
 			this.remove(model, {"silent": true});
-			this.add(model, {"at": index});
+			model.collection = this;
+			this.add(model, {"at": index, "silent": true});
+			this.trigger("sort");
 		},
 		"moveUp": function(model) {
 			this.move(model, -1);

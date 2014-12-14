@@ -23,7 +23,7 @@ exports.config = {
     }
   },
   "watch": {
-    "javascriptDir": "js",
+    "javascriptDir": "js"
   },
   "vendor": {
     "javascripts" : "js/vendor",
@@ -43,17 +43,24 @@ exports.config = {
             "controllers/HomeController"
           ],
           "insertRequire" : ["boot"],
-          "out"           : "main.js"
+          "out"           : "main.js",
+          "generateSourceMaps": true,
+          "preserveLicenseComments": false
       }
     }
   },
   "bower": {
+    "bowerDir": {
+      "path": ".mimosa/bower/bower_components",
+      "clean": false
+    },
     "copy": {
       "mainOverrides": {
         "mocha"     : ["mocha.js", "mocha.css"],
         "modernizr" : ["modernizr.js"],
         "expect"    : ["index.js"],
-        "pleasejs"  : ["Please.js"]
+        "pleasejs"  : ["dist/Please.js"],
+        "diacritic": ["diacritics.js"]
       }
     }
   },
@@ -61,7 +68,7 @@ exports.config = {
     "folders": [{
       "folder"  : "css/",
       "output"  : "css/main.css",
-      "exclude" : null,
+      "exclude" : ["vendor/mocha/mocha.css"],
       "order"   : null
     }],
     "removeCombined": {

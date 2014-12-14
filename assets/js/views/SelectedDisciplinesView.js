@@ -14,7 +14,8 @@ define("views/SelectedDisciplinesView", [
 		"tagName": "table",
 		"listen": {
       		"addedToDOM": "applyFoundation",
-      		"change:combination collection": "updateViews"
+      		"change:combination collection": "updateViews",
+      		"sort collection": "renderAllItems"
 		},
 		"events": {
 			"click #nextCombination": "nextCombination",
@@ -42,11 +43,13 @@ define("views/SelectedDisciplinesView", [
 			combinationNumber = combinationTotal > 0 ? this.collection.getSelectedCombination()+1 : 0;
 			return combinationNumber+"/"+combinationTotal;
 		},
-		"nextCombination": function(){
+		"nextCombination": function(e){
 			this.collection.nextCombination();
+			e.preventDefault();
 		},
-		"previousCombination": function(){
+		"previousCombination": function(e){
 			this.collection.previousCombination();
+			e.preventDefault();
 		},
 		"initItemView": function(model){
 			if (this.itemView) {
@@ -65,7 +68,7 @@ define("views/SelectedDisciplinesView", [
 				Chaplin.CollectionView.prototype.render.apply(this, []);
 				this.updateCombinationStatus();
 			}, this);
-		},
+		}
 	});
 	_.extend(SelectedDisciplinesView.prototype, 
 		_.omit(
