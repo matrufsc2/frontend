@@ -43,11 +43,17 @@ exports.config = {
             "controllers/HomeController"
           ],
           "insertRequire" : ["boot"],
-          "out"           : "main.js"
+          "out"           : "main.js",
+          "generateSourceMaps": true,
+          "preserveLicenseComments": false
       }
     }
   },
   "bower": {
+    "bowerDir": {
+      "path": ".mimosa/bower/bower_components",
+      "clean": false
+    },
     "copy": {
       "mainOverrides": {
         "mocha"     : ["mocha.js", "mocha.css"],
@@ -62,7 +68,7 @@ exports.config = {
     "folders": [{
       "folder"  : "css/",
       "output"  : "css/main.css",
-      "exclude" : null,
+      "exclude" : ["vendor/mocha/mocha.css"],
       "order"   : null
     }],
     "removeCombined": {
