@@ -76,7 +76,7 @@ define("controllers/HomeController", [
 				urlQuery.selectedDisciplines = selectedDisciplines;
 				urlQuery.disabledTeams = disabledTeams;
 				urlQuery.selectedCombination = this.selectedDisciplines.getSelectedCombination();
-				var url = Chaplin.utils.reverse("Home#index", urlQuery, {"trigger": false});
+				var url = Chaplin.utils.reverse("Home#index", urlQuery);
 				Backbone.history.navigate(url, {"trigger": false, "replace": false});
 			}, this);
 			if (_.size(statusSession) >= 2) {
@@ -90,6 +90,11 @@ define("controllers/HomeController", [
 				this.semesters.once("sync", function(){
 					this.status.once("change:campus", function() {
 						this.disciplines.on("sync", function disciplinesLoaded(){
+							if (!_.has(statusSession, "selectedDisciplines")) {
+								this.status.on("change", updateURL);
+								this.selectedDisciplines.on("change change:combination", updateURL);
+								return;
+							}
 							_.each(statusSession.selectedDisciplines || [], function(selectedDiscipline){
 								var discipline = this.disciplines.get(selectedDiscipline);
 								if (!discipline) {
@@ -115,11 +120,11 @@ define("controllers/HomeController", [
 										)
 										.bind(this).then(function(){
 											this.selectedDisciplines.trigger("change:combination");
-											this.status.set({
-												"discipline": statusSession.discipline
-											});
-											this.status.on("change", updateURL);
-											this.selectedDisciplines.on("change change:combination", updateURL);
+											if (_.has(statusSession, "discipline")) {
+												this.status.set({
+													"discipline": statusSession.discipline
+												});
+											}
 										});
 								});
 							}, this);
@@ -136,7 +141,6 @@ define("controllers/HomeController", [
 				this.status.on("change", updateURL);
 				this.selectedDisciplines.on("change change:combination", updateURL);
 			}
-
 			this.semesters.fetch();
 			this.status.listenEvents();
 		}
