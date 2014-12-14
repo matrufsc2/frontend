@@ -58,6 +58,9 @@ define("controllers/HomeController", [
 			];
 			var statusSession = _.pick(request.query, statusSessionKeys) || {};
 			var updateURL = _.bind(function() {
+				if (this.disposed || !this.status || !this.selectedDisciplines) {
+					return;
+				}
 				var urlQuery = {};
 				urlQuery.semester = this.status.get("semester");
 				urlQuery.campus = this.status.get("campus");
