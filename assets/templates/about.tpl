@@ -4,7 +4,7 @@
 
             <!-- ======= SOBRE =======-->
             <h2>Sobre</h2>
-            <p>O MatrUFSC2 (http://matrufsc2.appspot.com) é um site que permite aos estudantes da UFSC (Universidade Federal de Santa Catarina) simular grades de horários para um determinado semestre.</p>
+            <p>O <a href="http://matrufsc2.appspot.com">MatrUFSC2</a> é um site que permite aos estudantes da UFSC (Universidade Federal de Santa Catarina) simular grades de horários para um determinado semestre.</p>
 
             <p>Com essa aplicação o estudante universitário pode (ênfase aqui) TESTAR  diversas combinações de disciplinas, horários e professores criando uma grade de horários de teste ANTES do período oficial de rematrícula da universidade.</p>
 
