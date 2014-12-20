@@ -84,6 +84,7 @@ define("controllers/HomeController", [
 					urlQuery.discipline = purify(this.status.get("discipline"), "discipline");
 				}
 				var selectedDisciplines = [];
+				var disabledTeams = [];
 				this.selectedDisciplines.each(function (discipline) {
 					selectedDisciplines.push(purify(discipline.id, "discipline"));
 					discipline.teams.each(function (team) {
