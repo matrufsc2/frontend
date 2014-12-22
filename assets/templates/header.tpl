@@ -1,7 +1,7 @@
  <div class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
-            <h1><a href="/">MatrUFSC2</a></h1>
+            <h1><a href="/"><img src="/img/logo.png" border="0" alt="MatrUFSC2" /></a></h1>
         </li>
     </ul>
 
