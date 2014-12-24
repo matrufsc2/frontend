@@ -93,8 +93,8 @@ define("controllers/HomeController", [
 						disabledTeams.push(purify(team.id, "team"));
 					});
 				});
-				urlQuery.selectedDisciplines = selectedDisciplines;
-				urlQuery.disabledTeams = disabledTeams;
+				urlQuery.selectedDisciplines = selectedDisciplines.join(",");
+				urlQuery.disabledTeams = disabledTeams.join(",");
 				urlQuery.selectedCombination = this.selectedDisciplines.getSelectedCombination();
 				if(!urlQuery.semester || !urlQuery.campus) {
 					this.status.once("change", updateURL);
@@ -138,10 +138,10 @@ define("controllers/HomeController", [
 			if (_.size(statusSession) >= 2) {
 				// Well, Here we can load based on data in the querystring :D
 				if (statusSession.selectedDisciplines && !_.isArray(statusSession.selectedDisciplines)) {
-					statusSession.selectedDisciplines = [statusSession.selectedDisciplines];
+					statusSession.selectedDisciplines = statusSession.selectedDisciplines.split(",");
 				}
 				if (statusSession.disabledTeams && !_.isArray(statusSession.disabledTeams)) {
-					statusSession.disabledTeams = [statusSession.disabledTeams];
+					statusSession.disabledTeams = statusSession.disabledTeams.split(",");
 				}
 				statusSession.selectedCombination = parseInt(statusSession.selectedCombination) || 0;
 				statusSession.disabledTeams = statusSession.disabledTeams || [];
@@ -181,7 +181,7 @@ define("controllers/HomeController", [
 										}
 									});
 								});
-							}, this)).then(listen);
+							}, this)).then(listen, function(){});
 						}, this);
 						this.status.set({
 							"campus": unpurify(statusSession.campus, "campus")
