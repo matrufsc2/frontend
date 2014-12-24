@@ -14,6 +14,10 @@
             <li><a href="javascript:void(0);" class="share">Compartilhar</a></li>
             <li class="divider"></li>
             <li><a href="javascript:void(0);" class="alert button expand start-tour">Como usar</a></li>
+            <li class="divider"></li>
+            <li class="has-dropdown history">
+                <a href="#">Historico</a>
+            </li>
         </ul>
     </section>
 </div>
