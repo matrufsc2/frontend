@@ -132,7 +132,6 @@ define("controllers/HomeController", [
 				this.getHeader().render();
 			}, this);
 			var listen = _.bind(function(){
-				console.log("Ouvindo.....");
 				this.status.once("change", updateURL);
 				this.selectedDisciplines.once("change change:combination", updateURL);
 			}, this);
@@ -182,9 +181,7 @@ define("controllers/HomeController", [
 										}
 									});
 								});
-							}, this)).then(listen, function(){
-								console.log("Erro D:");
-							});
+							}, this)).then(listen);
 						}, this);
 						this.status.set({
 							"campus": unpurify(statusSession.campus, "campus")
