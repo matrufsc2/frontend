@@ -45,6 +45,7 @@
     "sinon": "http://sinonjs.org/releases/sinon-1.10.2.js"
   },
   "resolutions": {
-    "jquery": ">= 2.1.0"
+    "jquery": ">= 2.1.0",
+    "backbone": "1.x"
   }
 }
