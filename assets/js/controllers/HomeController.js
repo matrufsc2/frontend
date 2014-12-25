@@ -97,8 +97,6 @@ define("controllers/HomeController", [
 				urlQuery.disabledTeams = disabledTeams.join(",");
 				urlQuery.selectedCombination = this.selectedDisciplines.getSelectedCombination();
 				if(!urlQuery.semester || !urlQuery.campus) {
-					this.status.once("change", updateURL);
-					this.selectedDisciplines.once("change change:combination", updateURL);
 					return;
 				}
 				var url = Chaplin.utils.reverse("Home#index", urlQuery);
@@ -127,13 +125,13 @@ define("controllers/HomeController", [
 					model.collection = history;
 					model.destroy();
 				}
-				this.status.once("change", updateURL);
-				this.selectedDisciplines.once("change change:combination", updateURL);
 				this.getHeader().render();
 			}, this);
 			var listen = _.bind(function(){
-				this.status.once("change", updateURL);
-				this.selectedDisciplines.once("change change:combination", updateURL);
+				this.status.off("change", updateURL);
+				this.selectedDisciplines.off("change change:combination", updateURL);
+				this.status.on("change", updateURL);
+				this.selectedDisciplines.on("change change:combination", updateURL);
 			}, this);
 			if (_.size(statusSession) >= 2) {
 				// Well, Here we can load based on data in the querystring :D
