@@ -59,7 +59,6 @@ define("controllers/HomeController", [
         },
         "index": function (params, metadata, request) {
             this.adjustTitle("");
-            Promise.longStackTraces();
             this.selectedDisciplines = new SelectedDisciplines([], {
                 "status": this.status,
                 "semesters": this.semesters,
