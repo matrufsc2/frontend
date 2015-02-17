@@ -18,6 +18,7 @@
             <li class="has-dropdown possibilities">
                 <a href="#">Plano</a>
             </li>
+            <li class="divider"></li>
             <li class="has-dropdown history">
                 <a href="#">Historico</a>
             </li>
