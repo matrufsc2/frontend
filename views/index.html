@@ -25,8 +25,18 @@
     <meta name="msapplication-config" content="/img/favicon/browserconfig.xml">
     <meta name="application-name" content="MatrUFSC2">
     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="alternate" title="Blog do MatrUFSC2" type="application/rss+xml" href="http://example.com/feed" />
   </head>
   <body>
     <script src="/js/vendor/requirejs/require.js" data-main="/js/boot"></script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.3&appId=1523369977929219";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    {{prismicjs}}
   </body>
 </html>
