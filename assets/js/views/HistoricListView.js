@@ -16,6 +16,7 @@ define("views/HistoricListView", [
             Chaplin.CollectionView.prototype.initialize.call(this, options);
             this.status = options.status;
             this.listenTo(this.status, "change:version", this.highlightSelectedOption);
+            this.listenTo(this.collection, "add", this.highlightSelectedOption); // To track additions...
         },
         "initItemView": function (model) {
             if (this.itemView) {
@@ -30,7 +31,7 @@ define("views/HistoricListView", [
         "highlightSelectedOption": function () {
             this.$("li.active").removeClass("active");
             var version = this.status.get("version");
-            if (version) {
+            if (!!version) {
                 this.$("a[data-id='" + version + "']").parents("li").not(".has-dropdown").addClass("active");
             } else {
                 this.$("a").first().parents("li").not(".has-dropdown").addClass("active");
